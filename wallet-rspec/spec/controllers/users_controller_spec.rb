@@ -4,12 +4,13 @@ RSpec.describe UsersController, type: :controller do
 
   let(:valid_attributes){
     @valid_attributes = {
-      email: "test@testing.com",
+      email: "tester@testing.com",
       fname: "Michael",
       lname: "Roberts",
       phone: "2199391092",
       balance: 450,
-      password: "aintnothang"
+      password: "aintnothang",
+      password_confirmation: "aintnothang"
     }
   }
 
@@ -33,8 +34,9 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "POST #create" do
-    it " should render users#create" do
+    it " should create assign a new user via create" do
       user = User.create! valid_attributes
+      byebug
       post :create, {}
       expect(assigns(:user)).to eq([user])
     end
