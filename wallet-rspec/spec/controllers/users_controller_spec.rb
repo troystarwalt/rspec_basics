@@ -2,16 +2,47 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
+  let(:valid_attributes){
+    @valid_attributes = {
+      email: "test@testing.com",
+      fname: "Michael",
+      lname: "Roberts",
+      phone: "2199391092",
+      balance: 450,
+      password: "aintnothang"
+    }
+  }
+
   describe "GET #new" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)
     end
+
+    it " should render users#new" do
+      get :new
+      expect(response).to render_template :new
+    end
+
+    it " should show create a new @user" do
+      newuser = User.create! valid_attributes
+      # byebug
+      get :new, {}
+      expect(assigns(:user)).to be_a_new(User)
+    end
+  end
+
+  describe "POST #create" do
+    it " should render users#create" do
+      user = User.create! valid_attributes
+      post :create, {}
+      expect(assigns(:user)).to eq([user])
+    end
   end
 
   # describe "POST #create" do
   #   it "returns http success" do
-  #     get :create
+  #     post :create
   #     expect(response).to have_http_status(:success)
   #   end
   # end
@@ -29,17 +60,6 @@ RSpec.describe UsersController, type: :controller do
   #     expect(response).to have_http_status(:success)
   #   end
   # end
-
-  let(:valid_attributes){
-    @valid_attributes = {
-      email: "test@testing.com",
-      fname: "Michael",
-      lname: "Roberts",
-      phone: "2199391092",
-      balance: 450,
-      password: "aintnothang"
-    }
-  }
 
   describe "GET #index" do
     it "returns http success" do
