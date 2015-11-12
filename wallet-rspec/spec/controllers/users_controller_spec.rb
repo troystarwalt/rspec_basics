@@ -27,18 +27,16 @@ RSpec.describe UsersController, type: :controller do
 
     it " should show create a new @user" do
       newuser = User.create! valid_attributes
-      # byebug
+
       get :new, {}
       expect(assigns(:user)).to be_a_new(User)
     end
   end
 
   describe "POST #create" do
-    it " should create assign a new user via create" do
-      user = User.create! valid_attributes
-      byebug
-      post :create, {}
-      expect(assigns(:user)).to eq([user])
+    it " should create a new user via create" do
+      post :create, {user: valid_attributes}
+      expect(assigns(:user)).to eq(User.last)
     end
   end
 
@@ -78,7 +76,8 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #show" do
     # before { get :show, id: 1}
     it "returns http success" do
-      get :show, id: 1
+      user = User.create!(valid_attributes)
+      get :show, id: user.id
       expect(response).to have_http_status(:success)
     end
     after { puts "Completed"}

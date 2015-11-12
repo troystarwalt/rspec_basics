@@ -17,6 +17,10 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+
+  config.after(:suite) do
+    DatabaseCleaner.clean_with(:truncation)   
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -40,9 +44,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-config.after(:suite) do
-  DatabaseCleaner.clean_with(:truncation)   
-end
+
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
@@ -92,5 +94,5 @@ end
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-=end
+  =end
 end
